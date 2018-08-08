@@ -11,13 +11,15 @@ function generateRandomString($length = 8) {
 
 if(isset($_POST['submit'])){
 	$title = $_POST['title'];
-   	$paste = htmlspecialchars(mysql_real_escape_string($_POST['paste']));
+	$paste = htmlspecialchars(mysqli_real_escape_string($connect, $_POST['paste']));
    	$type = $_POST['type'];
    	$date = $_POST['date'];
    	$link = $_POST['link'];
+	$unique = $link . date('His',$date);
+
 
 	if(strlen($paste) >= 10){
-		$sql = "INSERT INTO pastes (typeID, pasteLink, pasteTitle, pasteContent, pasteDate) VALUES ('$type', '$link', '$title', '$paste', '$date')";
+		$sql = "INSERT INTO pastes (typeID, pasteLink, pasteTitle, pasteContent, pasteDate) VALUES ('$type', '$unique', '$title', '$paste', '$date')";
 		$query = mysqli_query($connect, $sql);
 		if($query){
 			$uploadMSG = '<div class="alert alert-success">
